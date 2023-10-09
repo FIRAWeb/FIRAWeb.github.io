@@ -9,52 +9,62 @@
 
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
+        // URL del archivo JSON
+        var url = 'https://raw.githubusercontent.com/FIRAWeb/FIRAWeb.github.io/main/fira_data.json'; // Reemplaza esto con la URL de tu archivo JSON
 
-        // Función para obtener los datos de la API
-        async function obtenerDatosDeAPI() {
-            try {
-                // Realizar una solicitud GET a la API (reemplaza la URL con la de tu API)
-                const response = await fetch('https://raw.githubusercontent.com/FIRAWeb/FIRAWeb.github.io/main/fira_data.json');
-                const data = await response.json();
-
-                // Procesar los datos obtenidos de la API
-                const labels = data.map(item => item.label); // Reemplaza 'label' con el campo deseado
-                const valores = data.map(item => item.valor); // Reemplaza 'valor' con el campo deseado
-
-                // Datos para la gráfica
-                var datosGrafica = {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Datos de la API',
-                        data: valores,
-                        borderColor: 'blue',
-                        backgroundColor: 'transparent',
-                        borderWidth: 2
-                    }]
-                };
-
-                // Configuración de la gráfica
-                var opciones = {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                };
-
-                // Crear la gráfica de línea
-                var myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: datosGrafica,
-                    options: opciones
-                });
-            } catch (error) {
-                console.error('Error al obtener datos de la API: ', error);
+        // Hacer una solicitud GET a la URL
+        fetch(url)
+        .then(function(response) {
+            // Comprobar si la respuesta es exitosa (código de estado 200)
+            if (response.status === 200) {
+                // Parsear la respuesta JSON
+                console.info("Parseamos")
+                return response.json();
+            } else {
+                // Si la respuesta no es exitosa, manejar el error
+                throw new Error('No se pudo obtener el archivo JSON');
             }
-        }
+        })
+        .then(function(data) {
+            // Trabajar con los datos JSON aquí
+            // Procesar los datos obtenidos de la API
 
-        // Llamar a la función para obtener datos de la API y crear la gráfica
-        obtenerDatosDeAPI();
+            const labels = data.datos_diarios.map(dato => dato.fecha);
+            const valores = data.datos_diarios.map(dato => dato.energia_obtenida);
+            // Reemplaza 'label' con el campo deseado
+
+            // Datos para la gráfica
+            var datosGrafica = {
+                labels: labels,
+                datasets: [{
+                    label: 'Datos de la API',
+                    data: valores,
+                    borderColor: 'blue',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2
+                }]
+            };
+
+            // Configuración de la gráfica
+            var opciones = {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
+
+            // Crear la gráfica de línea
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: datosGrafica,
+                options: opciones
+            });
+        })
+        .catch(function(error) {
+            // Manejar cualquier error que ocurra durante la solicitud
+            console.error('Error: ' + error.message);
+        });
     </script>
 </body>
 </html>
