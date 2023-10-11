@@ -28,9 +28,8 @@
                     datasets: [{
                         label: 'Energía Diaria',
                         data: energiasObtenidas.reverse(), // Invertir el orden para coincidir con las fechas
-                        borderColor: 'blue',
-                        backgroundColor: 'blue',
-                        borderWidth: 1,
+                        borderColor: 'green',
+                        borderWidth: 5,
                         tension:0.3,
                         fill: false,
                         pointRadius: 0
@@ -39,11 +38,38 @@
 
                 // Configuración de la gráfica
                 var opciones = {
+                    animations: {
+                                tension: {
+                                    duration: 1000,
+                                    easing: 'linear', // Usar 'linear'
+                                    from: 0.3, // Si queremos añadir animación poner 0.3
+                                    to: 0.3, // Si queremos añadir animación poner 0.3
+                                    loop: true
+                                }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true
                         }
-                    }
+                    },
+                    plugins:{
+                            title: {
+                                display: true,
+                                text: 'ECO - Barcelona',
+                                position: 'top',
+                                color:'green',
+                                font: {
+                                    size: 40,
+                                    family: "Montserrat Medium"
+                                }
+                            },
+                            legend:{
+                                display: false // Muestra o elimina la leyenda
+                            },
+                            tooltip:{
+                                enabled:false // Valores emergentes apagados
+                            }
+                            }
                 };
 
                 // Crear la gráfica de línea
