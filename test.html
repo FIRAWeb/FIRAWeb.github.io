@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mi Página con Video de YouTube de Fondo</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="video-background">
+        <div id="player"></div>
+        <div class="content">
+            <!-- Aquí puedes agregar el contenido de tu página -->
+            <h1>Mi Página con Video de YouTube de Fondo</h1>
+            <p>Bienvenido a mi sitio web.</p>
+        </div>
+    </div>
+    <script>
+        // Reemplaza 'VIDEO_ID' con la ID de tu video de YouTube.
+        const videoId = 'https://youtu.be/SxWZZIW_3Qs?si=qXAiLEIG-WIrTcf9';
+
+        // Carga la API de YouTube.
+        function onYouTubeIframeAPIReady() {
+            const player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                videoId: videoId,
+                playerVars: {
+                    autoplay: 1,
+                    controls: 0,
+                    showinfo: 0,
+                    modestbranding: 1,
+                    loop: 1,
+                    playlist: videoId,
+                },
+                events: {
+                    onReady: function (event) {
+                        event.target.mute();
+                        event.target.playVideo();
+                    },
+                },
+            });
+        }
+
+    </script>
+</body>
+</html>
